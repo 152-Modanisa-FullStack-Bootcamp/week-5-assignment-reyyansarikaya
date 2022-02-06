@@ -57,6 +57,17 @@ func StringMask(s string, n uint) string {
 	return justString
 }
 
+// For Benchmark Test
+func StringMask_SadumanSolve(s string, n uint) string {
+	if len(s) == 0 {
+		return "*"
+	} else if len(s) <= int(n) {
+		return strings.Repeat("*", len(s))
+	} else {
+		return s[:n] + strings.Repeat("*", len(s)-int(n))
+	}
+}
+
 func WordSplit(arr [2]string) string {
 	index := 0
 	word := ""

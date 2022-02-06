@@ -1,6 +1,7 @@
 package assignment
 
 import (
+	"fmt"
 	"math"
 	"testing"
 
@@ -138,6 +139,43 @@ func TestVariadicSet(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			assert.Equalf(t, tt.want, VariadicSet(tt.i...), "VariadicSet(%v)", tt.i...)
+		})
+	}
+}
+
+var table = []struct {
+	name string
+	s    string
+	n    uint
+	want string
+}{
+	{"test1", "!mysecret*", 2, "!m********"},
+	{"test2", "", 4, "*"},
+	{"test3", "a", 1, "*"},
+	{"test4", "string", 0, "******"},
+	{"test5", "string", 3, "str***"},
+	{"test6", "string", 5, "strin*"},
+	{"test7", "string", 6, "******"},
+	{"test8", "string", 7, "******"},
+	{"test9", "s*r*n*", 3, "s*r***"},
+}
+
+func BenchmarkStringMask(b *testing.B) {
+	for _, v := range table {
+		b.Run(fmt.Sprintf("input_size_%T", v.s), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				StringMask(v.s, v.n)
+			}
+		})
+	}
+}
+
+func BenchmarkStringMask_SadumanSolve(b *testing.B) {
+	for _, v := range table {
+		b.Run(fmt.Sprintf("input_size_%T", v.s), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				StringMask_SadumanSolve(v.s, v.n)
+			}
 		})
 	}
 }
